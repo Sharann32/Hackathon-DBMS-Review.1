@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: settings-management-system
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/settings_db
+    username: postgres
+    password: 250906
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: 9090
+  servlet:
+    context-path: /api
+
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expiration: 86400000
+
+logging:
+  level:
+    com.settings: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG

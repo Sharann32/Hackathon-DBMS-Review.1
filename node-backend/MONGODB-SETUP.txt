@@ -1,0 +1,199 @@
+================================================================================
+    MONGODB DATA SETUP GUIDE
+================================================================================
+
+Your MongoDB is connected to MongoDB Atlas but has no data.
+Follow these steps to populate it:
+
+================================================================================
+    STEP 1: TEST CONNECTION
+================================================================================
+
+Open terminal in node-backend folder and run:
+
+> cd "c:\Users\jeshwanth reddy\Desktop\SSC\node-backend"
+> npm run test-connection
+
+This will verify your MongoDB connection and show current database status.
+
+Expected output:
+  ✅ Successfully connected to MongoDB!
+  📊 Database Name: settings_db
+  📁 Collections: (empty or existing)
+
+================================================================================
+    STEP 2: SEED DATABASE WITH SAMPLE DATA
+================================================================================
+
+Run the seed script to populate MongoDB:
+
+> npm run seed
+
+This will insert:
+  - 5 Explanations (configuration guides)
+  - 5 FAQs (frequently asked questions)
+
+Expected output:
+  ✅ Inserted 5 explanations
+  ✅ Inserted 5 FAQs
+  ✨ Database seeded successfully!
+
+================================================================================
+    STEP 3: GENERATE VECTOR EMBEDDINGS (OPTIONAL BUT RECOMMENDED)
+================================================================================
+
+Generate 384-dimensional embeddings for semantic search:
+
+> npm run generate-embeddings
+
+This will:
+  - Initialize Transformers.js embedding model (all-MiniLM-L6-v2)
+  - Generate vectors for all explanations
+  - Generate vectors for all FAQs
+  - Save embeddings to MongoDB
+
+Expected output:
+  ✅ Embedding model initialized
+  ✅ Processed 5/5 explanations
+  ✅ Processed 5/5 FAQs
+
+Note: First run downloads the model (~20MB), takes 1-2 minutes
+
+================================================================================
+    STEP 4: START NODE.JS BACKEND
+================================================================================
+
+> npm start
+
+Expected output:
+  🚀 Node.js Configuration Assistant running on port 3001
+  📊 Vector Search: ENABLED
+  🤖 Embedding Model: all-MiniLM-L6-v2 (384 dimensions)
+
+================================================================================
+    STEP 5: VERIFY DATA
+================================================================================
+
+Test API endpoints:
+
+1. Get all explanations:
+   http://localhost:3001/api/explanations
+
+2. Get all FAQs:
+   http://localhost:3001/api/faqs
+
+3. Semantic search (after embeddings generated):
+   http://localhost:3001/api/search/semantic?query=how%20to%20configure%20settings
+
+4. Health check:
+   http://localhost:3001/health
+
+================================================================================
+    TROUBLESHOOTING
+================================================================================
+
+PROBLEM: Connection failed
+SOLUTION:
+  - Check .env file has correct MONGODB_URI
+  - Verify MongoDB Atlas IP whitelist (Network Access)
+  - Add 0.0.0.0/0 to allow all IPs (for testing)
+  - Confirm database user credentials
+
+PROBLEM: "Authentication failed"
+SOLUTION:
+  - Check username and password in connection string
+  - In MongoDB Atlas: Database Access > Edit User > Update Password
+  - Update MONGODB_URI in .env file
+
+PROBLEM: "Network timeout"
+SOLUTION:
+  - Check internet connection
+  - Verify MongoDB Atlas cluster is running
+  - Check firewall settings
+
+PROBLEM: No data showing in API
+SOLUTION:
+  - Run: npm run test-connection
+  - If empty, run: npm run seed
+  - Restart server: npm start
+
+PROBLEM: Embedding generation fails
+SOLUTION:
+  - Ensure data exists (run seed first)
+  - Check internet connection (downloads model first time)
+  - Wait for model download to complete
+
+================================================================================
+    MONGODB ATLAS CONFIGURATION
+================================================================================
+
+If you need to configure MongoDB Atlas:
+
+1. LOGIN TO ATLAS:
+   https://cloud.mongodb.com
+
+2. NETWORK ACCESS:
+   - Go to: Network Access
+   - Click: Add IP Address
+   - Add: 0.0.0.0/0 (allows all - for development only)
+   - Click: Confirm
+
+3. DATABASE ACCESS:
+   - Go to: Database Access
+   - Verify user exists: admin
+   - Reset password if needed
+   - Ensure role: Atlas Admin or readWriteAnyDatabase
+
+4. DATABASE:
+   - Go to: Browse Collections
+   - Should see database: settings_db
+   - After seeding: collections (explanations, faqs)
+
+================================================================================
+    SAMPLE DATA INCLUDED
+================================================================================
+
+EXPLANATIONS (5):
+  1. How to Configure Settings
+  2. Understanding Categories
+  3. User Roles and Permissions
+  4. Search Functionality
+  5. Theme and Language Preferences
+
+FAQS (5):
+  1. How do I reset my password?
+  2. What is the difference between SYSTEM and USER scope settings?
+  3. How do I create a new category?
+  4. Can I export my settings?
+  5. Why can't I see the Users page?
+
+Each document includes:
+  - Title/Question
+  - Content/Answer
+  - Keywords for search
+  - Embedding field (after running generate-embeddings)
+
+================================================================================
+    QUICK COMMANDS
+================================================================================
+
+Test connection:       npm run test-connection
+Seed database:         npm run seed
+Generate embeddings:   npm run generate-embeddings
+Start server:          npm start
+View logs:             (logs appear in terminal)
+
+================================================================================
+    CURRENT STATUS
+================================================================================
+
+Your MongoDB Atlas connection string is configured.
+Run the steps above to populate your database with data.
+
+Connection: MongoDB Atlas (Cloud)
+Database: settings_db
+Current data: Empty (needs seeding)
+
+Next: Run "npm run test-connection" to verify connection
+
+================================================================================

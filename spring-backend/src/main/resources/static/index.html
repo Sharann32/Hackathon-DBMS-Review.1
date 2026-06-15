@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Management API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        h1 { margin-top: 0; }
+        .status { 
+            color: #4ade80; 
+            font-weight: bold; 
+            font-size: 24px;
+        }
+        .endpoints {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .endpoint {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        a {
+            color: #4ade80;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Settings Management API</h1>
+        <p class="status">✅ Spring Boot Backend is Running!</p>
+        
+        <div class="endpoints">
+            <h2>📡 API Endpoints</h2>
+            
+            <div class="endpoint">
+                <strong>Authentication:</strong><br>
+                <code>POST /api/auth/register</code> - Register new user<br>
+                <code>POST /api/auth/login</code> - User login
+            </div>
+            
+            <div class="endpoint">
+                <strong>Settings:</strong><br>
+                <code>GET /api/settings</code> - Get all settings<br>
+                <code>POST /api/settings</code> - Create setting<br>
+                <code>PUT /api/settings/{id}</code> - Update setting<br>
+                <code>DELETE /api/settings/{id}</code> - Delete setting
+            </div>
+            
+            <div class="endpoint">
+                <strong>Categories:</strong><br>
+                <code>GET /api/categories</code> - Get all categories<br>
+                <code>POST /api/categories</code> - Create category
+            </div>
+            
+            <div class="endpoint">
+                <strong>Users:</strong><br>
+                <code>GET /api/users</code> - Get all users (Admin)<br>
+                <code>GET /api/users/{id}</code> - Get user by ID
+            </div>
+            
+            <div class="endpoint">
+                <strong>Audit Logs:</strong><br>
+                <code>GET /api/audit</code> - Get audit logs (Admin)
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+            <p><strong>Frontend Application:</strong> <a href="http://localhost:5173" target="_blank">http://localhost:5173</a></p>
+            <p><strong>API Gateway:</strong> <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></p>
+            <p><strong>Documentation:</strong> See README.md in project root</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,264 @@
+================================================================================
+    INSTALLATION & DEPLOYMENT INSTRUCTIONS
+================================================================================
+
+IMPORTANT: Docker is NOT installed on your system!
+
+You have TWO options:
+
+================================================================================
+    OPTION 1: INSTALL DOCKER (RECOMMENDED FOR FULL DEPLOYMENT)
+================================================================================
+
+STEP 1: DOWNLOAD DOCKER DESKTOP
+   Go to: https://www.docker.com/products/docker-desktop
+   Download: Docker Desktop for Windows
+
+STEP 2: INSTALL DOCKER DESKTOP
+   1. Run the installer (Docker Desktop Installer.exe)
+   2. Follow installation wizard
+   3. Enable WSL 2 if prompted
+   4. Restart your computer after installation
+
+STEP 3: VERIFY INSTALLATION
+   Open PowerShell and run:
+   > docker --version
+   > docker-compose --version
+
+STEP 4: START DOCKER DESKTOP
+   - Launch Docker Desktop from Start Menu
+   - Wait for Docker Engine to start (icon in system tray)
+
+STEP 5: RUN YOUR PROJECT
+   Open PowerShell in project directory:
+   > cd "c:\Users\jeshwanth reddy\Desktop\SSC"
+   > .\docker-start.ps1
+
+   OR manually:
+   > docker-compose up -d
+
+STEP 6: GENERATE EMBEDDINGS
+   > docker exec -it ssc-node-backend node src/scripts/generateEmbeddings.js
+
+STEP 7: ACCESS APPLICATION
+   Frontend:     http://localhost
+   API Gateway:  http://localhost:8000
+   Spring Boot:  http://localhost:9090
+   Node.js:      http://localhost:3001
+
+================================================================================
+    OPTION 2: RUN WITHOUT DOCKER (MANUAL SETUP)
+================================================================================
+
+This requires more setup but works without Docker.
+
+PREREQUISITES:
+   - Java 17 JDK (for Spring Boot)
+   - Node.js 18+ (for React frontend and Node.js backend)
+   - Python 3.11+ (for FastAPI gateway)
+   - PostgreSQL 15 (database)
+   - MongoDB 7 (database)
+   - Maven (for Spring Boot build)
+
+STEP-BY-STEP MANUAL SETUP:
+
+---------------------------------------------------------------------------
+1. START POSTGRESQL
+---------------------------------------------------------------------------
+   
+   A. If PostgreSQL is installed:
+      Start PostgreSQL service
+      
+   B. If NOT installed:
+      Download from: https://www.postgresql.org/download/windows/
+      Install with password: 250906
+      
+   C. Create database:
+      > cd "c:\Users\jeshwanth reddy\Desktop\SSC\database"
+      > .\setup-databases.ps1
+
+---------------------------------------------------------------------------
+2. START MONGODB
+---------------------------------------------------------------------------
+
+   A. If MongoDB is installed:
+      Start MongoDB service
+      
+   B. If NOT installed:
+      Download from: https://www.mongodb.com/try/download/community
+      Install as Windows Service
+      
+   C. Setup MongoDB:
+      > cd "c:\Users\jeshwanth reddy\Desktop\SSC"
+      > .\setup-mongodb.ps1
+
+---------------------------------------------------------------------------
+3. START SPRING BOOT BACKEND (Port 9090)
+---------------------------------------------------------------------------
+
+   Open Terminal 1:
+   > cd "c:\Users\jeshwanth reddy\Desktop\SSC\spring-backend"
+   > mvnw.cmd spring-boot:run
+   
+   Wait for: "Started SettingsManagementApplication"
+
+---------------------------------------------------------------------------
+4. START NODE.JS BACKEND (Port 3001)
+---------------------------------------------------------------------------
+
+   Open Terminal 2:
+   > cd "c:\Users\jeshwanth reddy\Desktop\SSC\node-backend"
+   > npm install
+   > npm start
+   
+   Wait for: "Node.js Configuration Assistant running on port 3001"
+
+---------------------------------------------------------------------------
+5. GENERATE VECTOR EMBEDDINGS
+---------------------------------------------------------------------------
+
+   In Terminal 2 (or new terminal):
+   > cd "c:\Users\jeshwanth reddy\Desktop\SSC\node-backend"
+   > node src/scripts/generateEmbeddings.js
+   
+   Wait for completion message
+
+---------------------------------------------------------------------------
+6. START FASTAPI GATEWAY (Port 8000)
+---------------------------------------------------------------------------
+
+   Open Terminal 3:
+   > cd "c:\Users\jeshwanth reddy\Desktop\SSC\gateway"
+   > pip install -r requirements.txt
+   > uvicorn app.main:app --host 0.0.0.0 --port 8000
+   
+   Wait for: "Uvicorn running on http://0.0.0.0:8000"
+
+---------------------------------------------------------------------------
+7. START REACT FRONTEND (Port 5173 for dev, 80 for production)
+---------------------------------------------------------------------------
+
+   DEVELOPMENT MODE:
+   Open Terminal 4:
+   > cd "c:\Users\jeshwanth reddy\Desktop\SSC\frontend"
+   > npm install
+   > npm run dev
+   
+   Access at: http://localhost:5173
+   
+   PRODUCTION BUILD:
+   > npm run build
+   Then serve the dist/ folder with a web server
+
+---------------------------------------------------------------------------
+8. ACCESS APPLICATION
+---------------------------------------------------------------------------
+
+   Frontend:     http://localhost:5173 (dev) or http://localhost (prod)
+   API Gateway:  http://localhost:8000
+   Spring Boot:  http://localhost:9090
+   Node.js:      http://localhost:3001
+
+---------------------------------------------------------------------------
+9. LOGIN CREDENTIALS
+---------------------------------------------------------------------------
+
+   Admin: testadmin@test.com / admin123
+   User:  john@example.com / user123
+
+---------------------------------------------------------------------------
+10. STOP SERVICES
+---------------------------------------------------------------------------
+
+   Press Ctrl+C in each terminal to stop services
+
+================================================================================
+    TROUBLESHOOTING
+================================================================================
+
+PROBLEM: Port already in use
+SOLUTION: 
+   Check what's using the port:
+   > netstat -ano | findstr :9090
+   Kill the process:
+   > taskkill /PID <PID> /F
+
+PROBLEM: PostgreSQL connection failed
+SOLUTION:
+   - Verify PostgreSQL is running
+   - Check password is correct (250906)
+   - Verify database exists: settings_db
+
+PROBLEM: MongoDB connection failed
+SOLUTION:
+   - Verify MongoDB is running
+   - Check connection string in node-backend/.env
+   - Default: mongodb://localhost:27017/configuration_assistant
+
+PROBLEM: Java not found
+SOLUTION:
+   - Install Java 17 JDK
+   - Set JAVA_HOME environment variable
+   - Add to PATH
+
+PROBLEM: Node.js not found
+SOLUTION:
+   - Install Node.js 18+ from https://nodejs.org
+   - Verify: node --version
+
+PROBLEM: Python not found
+SOLUTION:
+   - Install Python 3.11+ from https://www.python.org
+   - Add to PATH during installation
+   - Verify: python --version
+
+PROBLEM: Maven not found
+SOLUTION:
+   - Use mvnw.cmd (Maven wrapper included in project)
+   - OR install Maven separately
+
+================================================================================
+    RECOMMENDED: USE DOCKER (OPTION 1)
+================================================================================
+
+Docker provides the easiest deployment:
+- No manual installation of databases
+- No dependency conflicts
+- One command to start everything
+- Consistent environment
+- Easy cleanup
+
+Install Docker Desktop and use Option 1 for best experience.
+
+================================================================================
+    CURRENT STATUS
+================================================================================
+
+[X] Project files: COMPLETE
+[X] Docker configuration: READY
+[X] Vector search: IMPLEMENTED
+[X] Database scripts: READY
+[ ] Docker: NOT INSTALLED (blocking full deployment)
+[ ] Manual services: NOT STARTED
+
+NEXT STEP: Install Docker Desktop OR follow Option 2 for manual setup
+
+================================================================================
+    QUICK COMMANDS REFERENCE
+================================================================================
+
+WITH DOCKER (After Docker Desktop is installed):
+   Start:    docker-compose up -d
+   Stop:     docker-compose down
+   Logs:     docker-compose logs -f
+   Rebuild:  docker-compose up --build -d
+
+WITHOUT DOCKER (Manual):
+   Terminal 1: cd spring-backend && mvnw.cmd spring-boot:run
+   Terminal 2: cd node-backend && npm install && npm start
+   Terminal 3: cd gateway && pip install -r requirements.txt && uvicorn app.main:app --port 8000
+   Terminal 4: cd frontend && npm install && npm run dev
+
+================================================================================
+    END OF INSTALLATION INSTRUCTIONS
+================================================================================
